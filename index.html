@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plataforma Imobiliária | Zamar Imóveis</title>
+  <link rel="icon" href="assets/logo-zamar.png" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="loginView" class="login-shell">
+    <section class="login-brand">
+      <img src="assets/logo-zamar.png" alt="Zamar Imóveis" class="login-logo" />
+      <h1>SEU SONHO TEM NOME,<br>ZAMAR IMÓVEIS</h1>
+      <p>Gestão imobiliária, locações, vendas e financeiro em um só lugar.</p>
+    </section>
+    <section class="login-card">
+      <div>
+        <h2>Bem-vindo</h2>
+        <p class="muted">Acesse o ambiente da Zamar Imóveis.</p>
+      </div>
+      <form id="loginForm">
+        <label>E-mail<input id="email" type="email" placeholder="seuemail@zamarimoveis.com.br" required></label>
+        <label>Senha<input id="password" type="password" placeholder="••••••••" required></label>
+        <button class="btn primary" type="submit">Entrar</button>
+        <button class="btn ghost" type="button" id="demoBtn">Entrar em modo demonstração</button>
+        <small id="loginMsg" class="muted"></small>
+      </form>
+    </section>
+  </div>
+
+  <div id="appView" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand-box">
+        <img src="assets/logo-zamar.png" alt="Zamar" />
+        <span>SEU SONHO TEM NOME,<br>ZAMAR IMÓVEIS</span>
+      </div>
+      <nav id="nav">
+        <button data-page="dashboard" class="active">⌂ Dashboard</button>
+        <button data-page="imoveis">🏠 Imóveis</button>
+        <button data-page="proprietarios">👤 Proprietários</button>
+        <button data-page="inquilinos">👥 Inquilinos</button>
+        <button data-page="contratos">📄 Contratos</button>
+        <button data-page="cobrancas">💳 Cobranças</button>
+        <button data-page="financeiro">💰 Financeiro</button>
+        <button data-page="vendas">🤝 Vendas</button>
+        <button data-page="vistorias">📸 Vistorias</button>
+        <button data-page="manutencoes">🔧 Manutenções</button>
+        <button data-page="documentos">📁 Documentos</button>
+        <button data-page="relatorios">📊 Relatórios</button>
+        <button data-page="adminmaster" id="adminMasterNav">🛡️ Admin Master</button>
+        <button data-page="configuracoes">⚙️ Configurações</button>
+      </nav>
+      <div class="sidebar-foot">Zamar Imóveis<br><small>CRECI 047529-J</small></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <input id="globalSearch" placeholder="Buscar imóvel, cliente, contrato..." />
+        <div class="userbox"><button class="iconbtn" id="notifBtn" title="Notificações">🔔<em id="notifCount" hidden>0</em></button><button class="iconbtn" id="helpBtn" title="Ajuda">❓</button><span class="avatar" id="userAvatar">CZ</span><div><strong id="userName">Carlos Zamar</strong><small id="userRole">Administrador</small></div><button id="logoutBtn">Sair</button></div>
+      </header>
+
+      <section id="dashboard" class="page active">
+        <div class="hero"><div><h1>Olá, Carlos!</h1><p>Aqui está o resumo da Zamar Imóveis.</p></div><strong>“SEU SONHO TEM NOME, ZAMAR IMÓVEIS”</strong></div>
+        <div class="kpis">
+          <article><span>🏠</span><b id="kpiImoveis">0</b><small>Imóveis cadastrados</small></article>
+          <article><span>🔑</span><b id="kpiAlugados">0</b><small>Imóveis alugados</small></article>
+          <article><span>🤝</span><b id="kpiVendas">0</b><small>Negociações de venda</small></article>
+          <article><span>⚠️</span><b id="kpiAtrasos">0</b><small>Contratos em atraso</small></article>
+          <article><span>💰</span><b id="kpiRecebido">R$ 0,00</b><small>Recebido no mês</small></article>
+          <article><span>📤</span><b id="kpiRepasse">R$ 0,00</b><small>A repassar</small></article>
+        </div>
+        <div class="grid2">
+          <article class="panel"><h3>Receita de aluguéis</h3><div class="bars"><i style="height:35%"></i><i style="height:44%"></i><i style="height:52%"></i><i style="height:62%"></i><i style="height:72%"></i><i style="height:80%"></i></div><div class="months"><span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span></div></article>
+          <article class="panel"><h3>Tarefas e alertas</h3><ul class="alerts"><li>📸 2 vistorias agendadas hoje</li><li>📄 4 documentos pendentes</li><li>⚠️ 6 contratos em atraso</li><li>🔧 5 solicitações de manutenção</li><li>✉️ 12 novos leads do site</li></ul></article>
+        </div>
+        <article class="panel"><div class="panel-head"><h3>Imóveis em destaque</h3><button class="linkbtn" data-go="imoveis">Ver todos</button></div><div id="featured" class="property-grid"></div></article>
+      </section>
+
+      <section id="imoveis" class="page">
+        <div class="page-head"><div><h1>Imóveis</h1><p>Cadastre e gerencie imóveis de venda e locação.</p></div><button class="btn primary" id="novoImovelBtn">+ Novo imóvel</button></div>
+        <div class="toolbar"><input id="searchImovel" placeholder="Buscar por título, bairro ou código"><select id="filterFinalidade"><option value="">Todas finalidades</option><option>Venda</option><option>Locação</option></select><select id="filterStatus"><option value="">Todos status</option><option>Disponível</option><option>Alugado</option><option>Vendido</option></select></div>
+        <div id="imoveisGrid" class="property-grid"></div>
+      </section>
+
+      <section id="proprietarios" class="page">
+        <div class="page-head"><div><h1>Proprietários</h1><p>Cadastros, imóveis vinculados e repasses.</p></div><button class="btn primary" id="novoPropBtn">+ Novo proprietário</button></div>
+        <div class="panel"><table><thead><tr><th>Nome</th><th>CPF/CNPJ</th><th>Telefone</th><th>E-mail</th><th>Imóveis</th><th>Ações</th></tr></thead><tbody id="propTable"></tbody></table></div>
+      </section>
+
+      <section id="inquilinos" class="page"><div class="page-head"><div><h1>Inquilinos</h1><p>Documentos, contratos e histórico de pagamentos.</p></div><button class="btn primary" id="novoInquilinoBtn">+ Novo inquilino</button></div><div class="panel"><table><thead><tr><th>Nome</th><th>CPF/CNPJ</th><th>Telefone</th><th>E-mail</th><th>Status</th><th>Ações</th></tr></thead><tbody id="inquilinosTable"></tbody></table></div></section>
+      <section id="contratos" class="page"><div class="page-head"><div><h1>Contratos</h1><p>Locação, reajustes, garantias, comissão e vigência.</p></div><button class="btn primary" id="novoContratoBtn">+ Novo contrato</button></div><div class="kpis compact"><article><b id="kpiContratosAtivos">0</b><small>Ativos</small></article><article><b id="kpiContratosVencer">0</b><small>A vencer em 60 dias</small></article><article><b id="kpiContratosAtraso">0</b><small>Com atraso</small></article><article><b>10%</b><small>Taxa padrão Zamar</small></article></div><div class="panel"><table><thead><tr><th>Contrato</th><th>Imóvel</th><th>Inquilino</th><th>Aluguel</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody id="contratosTable"></tbody></table></div></section>
+      <section id="cobrancas" class="page"><div class="page-head"><div><h1>Cobranças</h1><p>Boleto, PIX, régua de cobrança e inadimplência.</p></div><div class="page-actions"><button class="btn ghost" type="button" id="refreshFinanceRule">↻ Atualizar régua</button><button class="btn primary" data-create="cobrancas">+ Cobrança manual</button></div></div><div class="automation-note"><strong>⚙️ Régua financeira ativa</strong><span>Ao abrir o sistema, cobranças são classificadas por vencimento e viram alertas na central 🔔. Pagamentos continuam gerando receita e repasse automaticamente.</span></div><div class="kpis compact collection-kpis"><article><b id="cobVenceHoje">0</b><small>Vencem hoje</small></article><article><b id="cobProximos">0</b><small>Próximos 5 dias</small></article><article><b id="cobAtrasados">0</b><small>Em atraso</small></article><article><b id="cobAtrasadoValor">R$ 0,00</b><small>Valor em atraso</small></article></div><div class="panel priority-panel"><div class="panel-title-row"><div><h3>Prioridades de cobrança</h3><p class="muted">O que precisa de atenção primeiro.</p></div><span class="status warn" id="cobPriorityBadge">0 pendências</span></div><div id="cobrancaPriorityList" class="ops-list"></div></div><div class="panel"><table><thead><tr><th>Descrição</th><th>Inquilino</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody id="cobrancasTable"></tbody></table></div><div class="panel"><h3>Régua de cobrança</h3><div class="timeline"><span>-5 dias<br><b>Lembrete</b></span><span>Vencimento<br><b>Vence hoje</b></span><span>+1 dia<br><b>Aviso</b></span><span>+3 dias<br><b>2ª cobrança</b></span><span>+10 dias<br><b>Escalonar</b></span></div></div></section>
+      <section id="financeiro" class="page"><div class="page-head"><div><h1>Central Financeira</h1><p>Contas a receber, receita da imobiliária e repasses aos proprietários.</p></div><button class="btn primary" data-create="financeiro">+ Novo lançamento</button></div><div class="kpis compact"><article><b id="finRecebido">R$ 0,00</b><small>Recebido no mês</small></article><article><b id="finRepasse">R$ 0,00</b><small>A repassar</small></article><article><b id="finReceita">R$ 0,00</b><small>Receita da imobiliária</small></article><article><b id="finPendente">R$ 0,00</b><small>A receber</small></article></div><div class="finance-ops-grid"><div class="panel"><div class="panel-title-row"><div><h3>Repasses pendentes</h3><p class="muted">Confirme quando o proprietário receber.</p></div><b id="repassePendenteTotal">R$ 0,00</b></div><div class="table-scroll-y"><table><thead><tr><th>Proprietário</th><th>Competência</th><th>Valor</th><th>Vencimento</th><th>Ação</th></tr></thead><tbody id="repassesTable"></tbody></table></div></div><div class="panel"><div class="panel-title-row"><div><h3>Resumo operacional</h3><p class="muted">Situação atual da carteira de locação.</p></div></div><div id="financeOpsSummary" class="finance-summary-list"></div></div></div><div class="panel"><div class="panel-title-row"><div><h3>Movimentações financeiras</h3><p class="muted">Receitas, repasses, despesas, ajustes e estornos.</p></div></div><table><thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead><tbody id="financeiroTable"></tbody></table></div><div class="panel"><h3>Regra de locação</h3><p><strong>Primeiro aluguel:</strong> 100% da imobiliária quando configurado no contrato. <strong>Demais:</strong> taxa de administração contratual e repasse líquido ao proprietário.</p></div></section>
+      <section id="vendas" class="page"><div class="page-head"><div><h1>Vendas</h1><p>Leads, propostas, negociações e comissão variável.</p></div><button class="btn primary" data-create="vendas">+ Nova negociação</button></div><div class="panel"><table><thead><tr><th>Cliente</th><th>Imóvel</th><th>Etapa</th><th>Valor</th><th>Comissão</th><th>Ações</th></tr></thead><tbody id="vendasTable"></tbody></table></div></section>
+      <section id="vistorias" class="page"><div class="page-head"><div><h1>Vistorias</h1><p>Entrada, saída, fotos, laudos e aceite digital.</p></div><button class="btn primary" data-create="vistorias">+ Nova vistoria</button></div><div class="panel"><table><thead><tr><th>Data</th><th>Imóvel</th><th>Tipo</th><th>Responsável</th><th>Status</th><th>Ações</th></tr></thead><tbody id="vistoriasTable"></tbody></table></div></section>
+      <section id="manutencoes" class="page"><div class="page-head"><div><h1>Manutenções</h1><p>Chamados, autorização do proprietário, orçamento e execução.</p></div><button class="btn primary" data-create="manutencoes">+ Novo chamado</button></div><div class="panel"><table><thead><tr><th>Chamado</th><th>Imóvel</th><th>Descrição</th><th>Status</th><th>Valor</th><th>Ações</th></tr></thead><tbody id="manutencoesTable"></tbody></table></div></section>
+      <section id="documentos" class="page"><div class="page-head"><div><h1>Documentos</h1><p>Contratos, documentos pessoais, comprovantes e laudos armazenados com acesso privado.</p></div><button class="btn primary" id="novoDocumentoBtn">+ Enviar documento</button></div><div class="panel"><table><thead><tr><th>Nome</th><th>Categoria</th><th>Vinculado a</th><th>Validade</th><th>Enviado em</th><th>Ações</th></tr></thead><tbody id="documentosTable"></tbody></table></div></section>
+      <section id="relatorios" class="page"><div class="page-head"><div><h1>Relatórios</h1><p>Gestão, financeiro, locação, vendas e inadimplência.</p></div></div><div class="docgrid report-grid"><article class="report-card" data-report="carteira" tabindex="0">📊<b>Carteira de imóveis</b><small>Dados consolidados</small><span>Ver relatório →</span></article><article class="report-card" data-report="financeiro" tabindex="0">💰<b>Financeiro</b><small>Receitas e repasses</small><span>Ver relatório →</span></article><article class="report-card" data-report="inadimplencia" tabindex="0">⚠️<b>Inadimplência</b><small>Cobranças pendentes</small><span>Ver relatório →</span></article><article class="report-card" data-report="vendas" tabindex="0">🤝<b>Vendas</b><small>Funil e comissões</small><span>Ver relatório →</span></article></div></section>
+      <section id="adminmaster" class="page"><div class="page-head"><div><h1>Admin Master</h1><p>Controle central da plataforma multi-imobiliária.</p></div><button class="btn primary" data-create="imobiliarias">+ Nova imobiliária</button></div><div class="panel"><table><thead><tr><th>Imobiliária</th><th>CRECI</th><th>Plano</th><th>Cor principal</th><th>Status</th><th>Ações</th></tr></thead><tbody id="imobiliariasTable"></tbody></table></div></section>
+      <section id="configuracoes" class="page"><div class="page-head"><div><h1>Configurações</h1><p>Identidade visual e dados da imobiliária.</p></div><button class="btn primary" id="salvarConfigBtn">Salvar alterações</button></div><div class="panel form-grid"><label>Nome<input id="cfgNome"></label><label>Slogan<input id="cfgSlogan"></label><label>Cor principal<input id="cfgCor1" type="color"></label><label>Cor secundária<input id="cfgCor2" type="color"></label><label>CRECI<input id="cfgCreci"></label><label>Integração bancária<select id="cfgBanco"><option>Não configurada</option><option>Banco Inter</option><option>Itaú</option><option>Bradesco</option><option>Santander</option></select></label></div></section>
+    </main>
+  </div>
+  <dialog id="notifDialog"><div class="modal-form"><h2>🔔 Notificações</h2><p class="muted notif-hint">Clique em uma notificação para abrir o módulo relacionado. Ao abrir, ela será marcada como lida.</p><ul class="alerts notif-list" id="notifList"><li class="notif-empty">Carregando notificações...</li></ul><div class="modal-actions"><button class="btn primary" onclick="this.closest('dialog').close()">Fechar</button></div></div></dialog>
+  <dialog id="helpDialog"><div class="modal-form"><h2>❓ Central de ajuda</h2><p>Consulte orientações sobre a tela atual ou fale com o suporte da plataforma.</p><div class="docgrid"><article>📘<b>Como usar</b><small>Guias do sistema</small></article><article>💬<b>Suporte</b><small>Falar com atendimento</small></article></div><div class="modal-actions"><button class="btn primary" onclick="this.closest('dialog').close()">Fechar</button></div></div></dialog>
+
+  <dialog id="imovelDialog"><form method="dialog" id="imovelForm" class="modal-form imovel-form"><h2 id="imovelDialogTitle">Novo imóvel</h2><div class="form-grid">
+    <label id="imovelImobWrap" style="display:none">Imobiliária<select id="imovelImobiliaria" name="imobiliaria_id"></select></label>
+    <label>Proprietário<select id="imovelProprietario" name="proprietario_id"><option value="">Sem proprietário vinculado</option></select></label>
+    <label>Título<input name="titulo" required placeholder="Ex.: Apartamento no Tatuapé"></label><label>Código<input name="codigo" placeholder="Ex.: Z001"></label>
+    <label>Finalidade<select name="finalidade"><option value="venda">Venda</option><option value="locacao">Locação</option><option value="venda_locacao">Venda e Locação</option></select></label>
+    <label>Tipo do imóvel<input name="tipo_imovel" placeholder="Apartamento, Casa, Terreno..."></label>
+    <label>Status<select name="status"><option value="disponivel">Disponível</option><option value="reservado">Reservado</option><option value="alugado">Alugado</option><option value="vendido">Vendido</option><option value="inativo">Inativo</option></select></label>
+    <label>Valor de venda<input name="valor_venda" type="number" step="0.01" min="0"></label><label>Valor de locação<input name="valor_locacao" type="number" step="0.01" min="0"></label>
+    <label>Condomínio<input name="valor_condominio" type="number" step="0.01" min="0"></label><label>IPTU<input name="valor_iptu" type="number" step="0.01" min="0"></label>
+    <label>Dormitórios<input name="dormitorios" type="number" min="0"></label><label>Suítes<input name="suites" type="number" min="0"></label><label>Banheiros<input name="banheiros" type="number" min="0"></label><label>Vagas<input name="vagas" type="number" min="0"></label>
+    <label>Área útil m²<input name="area_util" type="number" step="0.01" min="0"></label><label>Área total m²<input name="area_total" type="number" step="0.01" min="0"></label>
+    <label>CEP<input name="cep"></label><label>Endereço<input name="endereco"></label><label>Número<input name="numero"></label><label>Complemento<input name="complemento"></label><label>Bairro<input name="bairro"></label><label>Cidade<input name="cidade" value="São Paulo"></label><label>Estado<input name="estado" maxlength="2" value="SP"></label>
+    <div class="span2 photo-upload-section">
+      <div class="photo-upload-head"><div><b>Fotos do imóvel</b><small class="muted">Envie várias fotos em JPG, PNG ou WebP. Máximo de 10 MB por imagem.</small></div><label class="btn ghost photo-upload-btn">＋ Adicionar fotos<input id="imovelFotosInput" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden></label></div>
+      <div id="imovelFotosGrid" class="photo-upload-grid"><div class="photo-empty">Nenhuma foto selecionada.</div></div>
+      <small class="muted photo-help">Clique em ★ para definir a foto principal. Você também pode remover uma foto antes de salvar.</small>
+    </div>
+    <label class="span2">Descrição<textarea name="descricao" rows="3"></textarea></label><label class="span2">Características<textarea name="caracteristicas" rows="2" placeholder="Piscina, churrasqueira, varanda..."></textarea></label>
+    <label class="checkline"><input name="destaque" type="checkbox"> Imóvel em destaque</label><label class="checkline"><input name="publicado_site" type="checkbox"> Publicar no site</label>
+  </div><div class="modal-actions"><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" id="salvarImovel" value="default">Salvar imóvel</button></div></form></dialog>
+  <dialog id="propDialog"><form method="dialog" id="propForm" class="modal-form"><h2 id="propDialogTitle">Novo proprietário</h2><div class="form-grid"><label id="propImobWrap" style="display:none">Imobiliária<select id="propImobiliaria" name="imobiliaria_id"></select></label><label>Nome<input name="nome" required></label><label>Tipo de pessoa<select name="tipo_pessoa"><option value="fisica">Pessoa física</option><option value="juridica">Pessoa jurídica</option></select></label><label>CPF/CNPJ<input name="cpf_cnpj"></label><label>Telefone<input name="telefone"></label><label>WhatsApp<input name="whatsapp"></label><label>E-mail<input name="email" type="email"></label><label>Cidade<input name="cidade"></label><label>Estado<input name="estado" maxlength="2" placeholder="SP"></label><label>Chave PIX<input name="chave_pix"></label><label class="span2">Observações<textarea name="observacoes" rows="3"></textarea></label></div><div class="modal-actions"><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" id="salvarProp" value="default">Salvar</button></div></form></dialog>
+
+  <dialog id="inquilinoDialog"><form method="dialog" id="inquilinoForm" class="modal-form inquilino-form"><div class="modal-title-row"><div><h2 id="inquilinoDialogTitle">Novo inquilino</h2><p class="muted">Cadastre os dados pessoais, financeiros e de contato do inquilino.</p></div><button type="button" class="icon-close" id="inquilinoClose" aria-label="Fechar">×</button></div><div class="form-grid">
+    <label id="inquilinoImobWrap" style="display:none">Imobiliária<select id="inquilinoImobiliaria" name="imobiliaria_id"></select></label>
+    <label>Nome<input name="nome" required></label>
+    <label>Tipo de pessoa<select name="tipo_pessoa"><option value="fisica">Pessoa física</option><option value="juridica">Pessoa jurídica</option></select></label>
+    <label>CPF/CNPJ<input name="cpf_cnpj"></label><label>RG/IE<input name="rg_ie"></label>
+    <label>Data de nascimento<input name="data_nascimento" type="date"></label><label>E-mail<input name="email" type="email"></label>
+    <label>Telefone<input name="telefone"></label><label>WhatsApp<input name="whatsapp"></label>
+    <label>Profissão<input name="profissao"></label><label>Empresa<input name="empresa"></label>
+    <label>Renda mensal<input name="renda_mensal" type="number" min="0" step="0.01"></label>
+    <label>CEP<input name="cep"></label><label>Endereço<input name="endereco"></label>
+    <label>Número<input name="numero"></label><label>Complemento<input name="complemento"></label>
+    <label>Bairro<input name="bairro"></label><label>Cidade<input name="cidade"></label>
+    <label>Estado<input name="estado" maxlength="2" placeholder="SP"></label>
+    <label>Contato de emergência<input name="contato_emergencia_nome"></label><label>Telefone de emergência<input name="contato_emergencia_telefone"></label>
+    <label>Status<select name="ativo"><option value="true">Ativo</option><option value="false">Inativo</option></select></label>
+    <label class="span2">Observações<textarea name="observacoes" rows="3"></textarea></label>
+  </div><div class="modal-actions"><button class="btn ghost" value="cancel">Cancelar</button><button class="btn primary" id="salvarInquilino" value="default">Salvar inquilino</button></div></form></dialog>
+
+
+  <dialog id="contratoDialog"><form id="contratoForm" class="modal-form contrato-form"><div class="modal-title-row"><div><h2 id="contratoDialogTitle">Novo contrato</h2><p class="muted">Vincule imóvel, proprietário e inquilino e defina as regras financeiras da locação.</p></div><button type="button" class="icon-close" id="contratoClose" aria-label="Fechar">×</button></div><div class="form-grid">
+    <label id="contratoImobWrap" style="display:none">Imobiliária<select id="contratoImobiliaria" name="imobiliaria_id"></select></label>
+    <label>Código do contrato<input name="codigo" placeholder="Ex.: LOC-001"></label>
+    <label>Imóvel<select id="contratoImovel" name="imovel_id" required></select></label>
+    <label>Proprietário<input id="contratoProprietarioNome" readonly></label>
+    <label>Inquilino<select id="contratoInquilino" name="inquilino_id" required></select></label>
+    <label>Status<select name="status"><option value="rascunho">Rascunho</option><option value="ativo" selected>Ativo</option><option value="encerrado">Encerrado</option><option value="cancelado">Cancelado</option></select></label>
+    <label>Início<input name="data_inicio" type="date" required></label><label>Fim<input name="data_fim" type="date"></label>
+    <label>Dia do vencimento<input name="dia_vencimento" type="number" min="1" max="31" value="10" required></label><label>Valor do aluguel<input name="valor_aluguel" type="number" min="0" step="0.01" required></label>
+    <label>Primeiro aluguel<select name="primeira_parcela_imobiliaria"><option value="true" selected>100% para a imobiliária</option><option value="false">Aplicar regra normal</option></select></label>
+    <label>Taxa de administração<select name="taxa_administracao_tipo"><option value="percentual" selected>Percentual (%)</option><option value="fixo">Valor fixo (R$)</option></select></label>
+    <label>Valor da taxa<input name="taxa_administracao_valor" type="number" min="0" step="0.01" value="10" required></label>
+    <label>Multa por atraso (%)<input name="multa_atraso_percentual" type="number" min="0" step="0.01" value="2"></label><label>Juros ao mês (%)<input name="juros_atraso_percentual_mes" type="number" min="0" step="0.01" value="1"></label>
+    <label>Índice de reajuste<input name="reajuste_indice" placeholder="Ex.: IPCA, IGP-M"></label><label>Reajuste a cada (meses)<input name="reajuste_periodicidade_meses" type="number" min="1" value="12"></label>
+    <label>Garantia<select name="garantia_tipo"><option value="">Selecione</option><option value="fiador">Fiador</option><option value="deposito_caucao">Depósito caução</option><option value="seguro_fianca">Seguro-fiança</option><option value="titulo_capitalizacao">Título de capitalização</option><option value="sem_garantia">Sem garantia</option><option value="outro">Outro</option></select></label><label>Valor da garantia<input name="garantia_valor" type="number" min="0" step="0.01"></label>
+    <label class="span2">Observações<textarea name="observacoes" rows="3"></textarea></label>
+  </div><div class="modal-actions"><button class="btn ghost" type="button" id="contratoCancel">Cancelar</button><button class="btn primary" type="submit">Salvar contrato</button></div></form></dialog>
+
+  <dialog id="documentoDialog"><form id="documentoForm" class="modal-form documento-form"><div class="modal-title-row"><div><h2>Enviar documento</h2><p class="muted">O arquivo será armazenado de forma privada no Supabase.</p></div><button type="button" class="icon-close" id="documentoClose" aria-label="Fechar">×</button></div><div class="form-grid">
+    <label id="documentoImobWrap" style="display:none">Imobiliária<select id="documentoImobiliaria" name="imobiliaria_id"></select></label>
+    <label>Vincular a<select id="documentoTipoVinculo" name="tipo_vinculo" required><option value="imovel">Imóvel</option><option value="proprietario">Proprietário</option><option value="inquilino">Inquilino</option><option value="contrato">Contrato</option><option value="geral">Documento geral</option></select></label>
+    <label id="documentoReferenciaWrap">Registro relacionado<select id="documentoReferencia" name="referencia_id"></select></label>
+    <label>Categoria<select name="categoria" required><option>Matrícula</option><option>IPTU</option><option>Escritura</option><option>Contrato</option><option>Aditivo</option><option>RG / CPF</option><option>Comprovante de renda</option><option>Vistoria</option><option>Laudo</option><option>Outro</option></select></label>
+    <label>Data do documento<input name="data_documento" type="date"></label><label>Data de validade<input name="data_validade" type="date"></label>
+    <label class="span2 document-file-field">Arquivo<input id="documentoArquivo" name="arquivo" type="file" accept="application/pdf,image/jpeg,image/png,image/webp,.doc,.docx" required><small class="muted">PDF, JPG, PNG, WebP ou Word. Máximo de 20 MB.</small></label>
+    <label class="span2">Observações<textarea name="observacoes" rows="3"></textarea></label>
+  </div><div class="modal-actions"><button class="btn ghost" type="button" id="documentoCancel">Cancelar</button><button class="btn primary" type="submit" id="salvarDocumento">Enviar documento</button></div></form></dialog>
+
+  <dialog id="imovelDetalheDialog"><div class="modal-form imovel-detail"><div class="modal-title-row"><div><h2 id="imovelDetalheTitulo">Imóvel</h2><p id="imovelDetalheSubtitulo" class="muted"></p></div><button type="button" class="icon-close" id="imovelDetalheClose" aria-label="Fechar">×</button></div><div class="detail-tabs" id="imovelDetalheTabs"><button class="active" data-detail-tab="resumo">Resumo</button><button data-detail-tab="proprietario">Proprietário</button><button data-detail-tab="fotos">Fotos</button><button data-detail-tab="documentos">Documentos</button><button data-detail-tab="contratos">Contratos</button><button data-detail-tab="financeiro">Financeiro</button><button data-detail-tab="vistorias">Vistorias</button><button data-detail-tab="manutencoes">Manutenções</button></div><div id="imovelDetalheConteudo" class="detail-content"></div><div class="modal-actions"><button class="btn ghost" type="button" id="imovelDetalheEditar">Editar imóvel</button><button class="btn primary" type="button" id="imovelDetalheFechar">Fechar</button></div></div></dialog>
+
+  <dialog id="genericDialog"><form id="genericForm" class="modal-form"><h2 id="genericTitle">Cadastro</h2><div id="genericFields" class="form-grid"></div><div class="modal-actions"><button class="btn ghost" type="button" id="genericCancel">Cancelar</button><button class="btn primary" type="submit">Salvar</button></div></form></dialog>
+  <dialog id="reportDialog"><div class="modal-form report-modal"><div class="report-modal-head"><div><h2 id="reportTitle">Relatório</h2><p id="reportSummary" class="muted"></p></div><button class="icon-close" type="button" id="reportClose" aria-label="Fechar">×</button></div><div id="reportContent"></div><div class="modal-actions"><button class="btn ghost" type="button" id="reportExport">Exportar CSV</button><button class="btn primary" type="button" id="reportCloseBottom">Fechar</button></div></div></dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
