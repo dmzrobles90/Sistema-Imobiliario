@@ -8,7 +8,7 @@ window.ZAMAR_CONFIG = {
   demoMode: false,
   allowDemo: true,
 
-  // Meta / WhatsApp Embedded Signup (V6.7.5)
+  // Meta / WhatsApp Embedded Signup (V6.7.5.4)
   // Estes IDs não são segredos. Preencha antes da publicação para habilitar o botão de conexão.
   metaAppId: '1102791845765188',
   whatsappEmbeddedConfigId: '1597152712091732',

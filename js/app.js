@@ -1316,13 +1316,29 @@ $('#abrirGatewayWhatsapp')?.addEventListener('click',()=>{
 $('#conectarMetaWhatsapp')?.addEventListener('click',()=>{
  if(!cfg.metaAppId||!cfg.whatsappEmbeddedConfigId){showToast('Configure o App ID e o Configuration ID da Meta antes de conectar.','error');return;}
  if(!window.FB||!metaSdkReady){showToast('O SDK da Meta ainda está carregando. Tente novamente em alguns segundos.','error');return;}
- FB.login((response)=>{
+ if(!supabaseClient){showToast('Sua sessão da Plataforma Imobiliária não está pronta. Atualize a página e tente novamente.','error');return;}
+ const btn=$('#conectarMetaWhatsapp');
+ FB.login(async(response)=>{
    const code=response?.authResponse?.code;
-   if(code){
-     const el=$('#metaEmbeddedStatus');if(el)el.textContent='Autorização recebida. O código temporário deve ser trocado pelo backend; nenhum token será salvo no navegador.';
-     // A troca do code por token deve ocorrer exclusivamente na Edge Function imob-whatsapp-oauth.
-     // Não persistimos code/token no localStorage nem no HTML.
-   }else{showToast('Conexão com a Meta não foi concluída.','error');}
+   if(!code){showToast('Conexão com a Meta não foi concluída.','error');return;}
+   const el=$('#metaEmbeddedStatus');
+   if(el)el.textContent='Autorização recebida. Finalizando vínculo seguro no backend...';
+   if(btn){btn.disabled=true;btn.textContent='Finalizando...';}
+   try{
+     // O authorization code é enviado somente à Edge Function autenticada.
+     // App Secret e Access Token nunca passam pelo frontend.
+     const {data,error}=await supabaseClient.functions.invoke('imob-whatsapp-oauth',{body:{code}});
+     if(error)throw error;
+     if(!data?.ok||!data?.authorized)throw new Error(data?.error||'A autorização não foi confirmada pelo backend.');
+     if(el)el.textContent='Autorização Meta concluída com segurança. Próxima etapa: vincular a conta e o número do WhatsApp.';
+     showToast('Autorização Meta concluída com segurança.','success');
+   }catch(err){
+     console.error('Meta OAuth backend:',err);
+     if(el)el.textContent='A Meta autorizou o acesso, mas o backend não conseguiu concluir a troca segura do código.';
+     showToast('Não foi possível concluir a autorização no backend: '+(err?.message||err),'error');
+   }finally{
+     if(btn){btn.disabled=false;btn.textContent='Conectar WhatsApp';}
+   }
  },{config_id:cfg.whatsappEmbeddedConfigId,response_type:'code',override_default_response_type:true,extras:{setup:{},featureType:'',sessionInfoVersion:'3'}});
 });
 setTimeout(()=>{renderMetaEmbeddedStatus();loadMetaSdk();},0);
