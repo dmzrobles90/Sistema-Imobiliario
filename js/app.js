@@ -1282,6 +1282,16 @@ window.fbAsyncInit=function(){
   if(!cfg.metaAppId)return;
   try{FB.init({appId:cfg.metaAppId,cookie:true,xfbml:false,version:'v23.0'});metaSdkReady=true;renderMetaEmbeddedStatus();}catch(err){console.warn('Meta SDK:',err);}
 };
+function loadMetaSdk(){
+  if(window.FB){ window.fbAsyncInit(); return; }
+  if(document.getElementById('facebook-jssdk')) return;
+  const js=document.createElement('script');
+  js.id='facebook-jssdk';
+  js.async=true; js.defer=true; js.crossOrigin='anonymous';
+  js.src='https://connect.facebook.net/pt_BR/sdk.js';
+  js.onerror=()=>{const el=$('#metaEmbeddedStatus');if(el)el.textContent='Não foi possível carregar o SDK da Meta. Verifique bloqueadores de conteúdo e tente novamente.';};
+  document.head.appendChild(js);
+}
 function renderMetaEmbeddedStatus(){
  const el=$('#metaEmbeddedStatus'),btn=$('#conectarMetaWhatsapp');if(!el||!btn)return;
  const ready=!!cfg.metaAppId&&!!cfg.whatsappEmbeddedConfigId;
@@ -1315,4 +1325,4 @@ $('#conectarMetaWhatsapp')?.addEventListener('click',()=>{
    }else{showToast('Conexão com a Meta não foi concluída.','error');}
  },{config_id:cfg.whatsappEmbeddedConfigId,response_type:'code',override_default_response_type:true,extras:{setup:{},featureType:'',sessionInfoVersion:'3'}});
 });
-setTimeout(renderMetaEmbeddedStatus,0);
+setTimeout(()=>{renderMetaEmbeddedStatus();loadMetaSdk();},0);
