@@ -1,4 +1,4 @@
-# Zamar Gestão Master
+# Plataforma Imobiliária — V6.4
 
 Projeto único e evolutivo da plataforma imobiliária multiempresa / white-label.
 
@@ -89,3 +89,38 @@ A separação das imobiliárias é feita por `imobiliaria_id` e RLS no Supabase.
 - Exibe repasses pendentes e permite confirmar o pagamento ao proprietário.
 - Corrige os KPIs financeiros para separar recebimento, receita da imobiliária e repasse.
 - Requer executar `supabase/migracao-v6.1-regua-central-financeira.sql` após a V6.0.
+
+
+## V6.2.3
+- Corrige white-label: o ícone PI não aparece após login de usuário vinculado a imobiliária.
+- Ficha do imóvel: aba Fotos permite upload direto de JPG/PNG/WebP.
+- Aba Documentos mantém upload direto de documentos, incluindo PDF, Word e imagens.
+- Admin Master da V6.2.2 preservado.
+
+
+Versão-base: V6.2.4.2
+Reconstruída sobre V6.2.3 validada.
+Mantém white-label, fotos e documentos dentro do imóvel; adiciona anexos em Financeiro, Vistorias e Manutenções.
+
+
+## V6.2.4.2
+Pacote corrigido com raiz padrão plataforma-imobiliaria-master e cache-busting nos arquivos CSS/JS para evitar navegador/deploy reutilizar V6.2.3. Mantém anexos em Financeiro, Vistorias e Manutenções.
+
+
+## V6.2.6 - Anexos integrados
+Na Ficha 360, novos Contratos, lançamentos Financeiros, Vistorias e Manutenções aceitam múltiplos anexos no próprio formulário (JPG, PNG, WebP, PDF, DOC e DOCX, até 20 MB por arquivo). Os anexos são enviados após o registro ser salvo e ficam vinculados ao registro específico.
+
+## V6.2.7.1 — Cards inteligentes e filtros rápidos
+- Cards clicáveis no topo dos módulos operacionais e cadastrais.
+- Filtros: Todos, Hoje, próximos 7, 15 e 30 dias e período personalizado.
+- Cards recalculam conforme o período e filtram a listagem ao clicar.
+- Vendas: Total, Lead, Visita, Proposta, Fechamento, Concluída e Cancelada.
+- Campo opcional "Próxima ação" no funil de vendas para agenda futura.
+
+## V6.5 — Central de Comunicação
+- Modelos configuráveis por evento e canal (WhatsApp/e-mail).
+- Fila interna criada automaticamente a partir de novos eventos da régua.
+- Variáveis: {inquilino}, {valor}, {vencimento}, {dias}, {contrato}, {imobiliaria}.
+- Status pendente/sem contato/enviada/erro preparados para integração futura.
+- Nenhum envio externo é realizado nesta versão.
+- Toast interno substitui o alert de conclusão da automação.

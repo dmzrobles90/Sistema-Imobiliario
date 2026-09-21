@@ -6,5 +6,13 @@ window.ZAMAR_CONFIG = {
 
   // Login real habilitado. O modo demonstração continua disponível só para testes.
   demoMode: false,
-  allowDemo: true
+  allowDemo: true,
+
+  // Meta / WhatsApp Embedded Signup (V6.7.5)
+  // Estes IDs não são segredos. Preencha antes da publicação para habilitar o botão de conexão.
+  metaAppId: '',
+  whatsappEmbeddedConfigId: '',
+
+  // Callback backend já preparado no projeto. Não coloque App Secret ou Access Token no frontend.
+  whatsappOAuthCallback: 'https://fzfjaypxmpmcnspaznkv.supabase.co/functions/v1/imob-whatsapp-oauth'
 };
