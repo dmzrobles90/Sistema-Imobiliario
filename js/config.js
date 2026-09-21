@@ -10,8 +10,8 @@ window.ZAMAR_CONFIG = {
 
   // Meta / WhatsApp Embedded Signup (V6.7.5)
   // Estes IDs não são segredos. Preencha antes da publicação para habilitar o botão de conexão.
-  metaAppId: '',
-  whatsappEmbeddedConfigId: '',
+  metaAppId: '1102791845765188',
+  whatsappEmbeddedConfigId: '1597152712091732',
 
   // Callback backend já preparado no projeto. Não coloque App Secret ou Access Token no frontend.
   whatsappOAuthCallback: 'https://fzfjaypxmpmcnspaznkv.supabase.co/functions/v1/imob-whatsapp-oauth'
