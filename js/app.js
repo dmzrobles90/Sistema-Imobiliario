@@ -1359,14 +1359,42 @@ $('#conectarMetaWhatsapp')?.addEventListener('click',()=>{
  try{
    // O callback do FB.login precisa ser uma função síncrona comum.
    // O processamento assíncrono é iniciado separadamente para evitar conflito com FedCM/JSSDK.
-   FB.login(function(response){
-     void concluirMetaOAuth(response);
-   },{
-     config_id:cfg.whatsappEmbeddedConfigId,
-     response_type:'code',
-     override_default_response_type:true,
-     extras:{setup:{},featureType:'',sessionInfoVersion:'3'}
-   });
+FB.login(function(response){
+
+  // DIAGNÓSTICO META EMBEDDED SIGNUP
+  // Não exibe o code nem o access token completos.
+  console.log("META RESPONSE:", {
+    status: response?.status || null,
+
+    temCode:
+      !!response?.authResponse?.code,
+
+    temAccessToken:
+      !!response?.authResponse?.accessToken,
+
+    codeInicio:
+      response?.authResponse?.code
+        ? response.authResponse.code.substring(0, 4)
+        : null,
+
+    tokenInicio:
+      response?.authResponse?.accessToken
+        ? response.authResponse.accessToken.substring(0, 4)
+        : null
+  });
+
+  void concluirMetaOAuth(response);
+
+}, {
+  config_id: cfg.whatsappEmbeddedConfigId,
+  response_type: 'code',
+  override_default_response_type: true,
+  extras: {
+    setup: {},
+    featureType: '',
+    sessionInfoVersion: '3'
+  }
+});
  }catch(err){
    console.error('Meta Embedded Signup:',err);
    metaConnectInProgress=false;
