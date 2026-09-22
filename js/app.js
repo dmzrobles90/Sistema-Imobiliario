@@ -1313,32 +1313,66 @@ $('#abrirGatewayWhatsapp')?.addEventListener('click',()=>{
   if(tab) tab.click();
   setTimeout(()=>$('#conectarMetaWhatsapp')?.scrollIntoView({behavior:'smooth',block:'center'}),80);
 });
+let metaConnectInProgress=false;
+
+async function concluirMetaOAuth(response){
+ const btn=$('#conectarMetaWhatsapp');
+ const el=$('#metaEmbeddedStatus');
+ try{
+   const code=response?.authResponse?.code;
+   if(!code){
+     console.warn('Meta Embedded Signup sem authorization code:',response);
+     const detalhe=response?.status?` Status: ${response.status}.`:'';
+     if(el)el.textContent='A Meta não retornou o código de autorização.'+detalhe;
+     showToast('Conexão com a Meta não foi concluída.'+detalhe,'error');
+     return;
+   }
+   if(el)el.textContent='Autorização recebida. Finalizando vínculo seguro no backend...';
+   if(btn)btn.textContent='Finalizando...';
+   // O authorization code é enviado somente à Edge Function autenticada.
+   // App Secret e Access Token nunca passam pelo frontend.
+   const {data,error}=await supabaseClient.functions.invoke('imob-whatsapp-oauth',{body:{code}});
+   if(error)throw error;
+   if(!data?.ok||!data?.authorized)throw new Error(data?.error||'A autorização não foi confirmada pelo backend.');
+   if(el)el.textContent='Autorização Meta concluída com segurança. Próxima etapa: vincular a conta e o número do WhatsApp.';
+   showToast('Autorização Meta concluída com segurança.','success');
+ }catch(err){
+   console.error('Meta OAuth backend:',err);
+   if(el)el.textContent='A Meta autorizou o acesso, mas o backend não conseguiu concluir a troca segura do código.';
+   showToast('Não foi possível concluir a autorização no backend: '+(err?.message||err),'error');
+ }finally{
+   metaConnectInProgress=false;
+   if(btn){btn.disabled=false;btn.textContent='Conectar WhatsApp';}
+ }
+}
+
 $('#conectarMetaWhatsapp')?.addEventListener('click',()=>{
+ if(metaConnectInProgress)return;
  if(!cfg.metaAppId||!cfg.whatsappEmbeddedConfigId){showToast('Configure o App ID e o Configuration ID da Meta antes de conectar.','error');return;}
  if(!window.FB||!metaSdkReady){showToast('O SDK da Meta ainda está carregando. Tente novamente em alguns segundos.','error');return;}
  if(!supabaseClient){showToast('Sua sessão da Plataforma Imobiliária não está pronta. Atualize a página e tente novamente.','error');return;}
  const btn=$('#conectarMetaWhatsapp');
- FB.login(async(response)=>{
-   const code=response?.authResponse?.code;
-   if(!code){showToast('Conexão com a Meta não foi concluída.','error');return;}
-   const el=$('#metaEmbeddedStatus');
-   if(el)el.textContent='Autorização recebida. Finalizando vínculo seguro no backend...';
-   if(btn){btn.disabled=true;btn.textContent='Finalizando...';}
-   try{
-     // O authorization code é enviado somente à Edge Function autenticada.
-     // App Secret e Access Token nunca passam pelo frontend.
-     const {data,error}=await supabaseClient.functions.invoke('imob-whatsapp-oauth',{body:{code}});
-     if(error)throw error;
-     if(!data?.ok||!data?.authorized)throw new Error(data?.error||'A autorização não foi confirmada pelo backend.');
-     if(el)el.textContent='Autorização Meta concluída com segurança. Próxima etapa: vincular a conta e o número do WhatsApp.';
-     showToast('Autorização Meta concluída com segurança.','success');
-   }catch(err){
-     console.error('Meta OAuth backend:',err);
-     if(el)el.textContent='A Meta autorizou o acesso, mas o backend não conseguiu concluir a troca segura do código.';
-     showToast('Não foi possível concluir a autorização no backend: '+(err?.message||err),'error');
-   }finally{
-     if(btn){btn.disabled=false;btn.textContent='Conectar WhatsApp';}
-   }
- },{config_id:cfg.whatsappEmbeddedConfigId,response_type:'code',override_default_response_type:true,extras:{setup:{},featureType:'',sessionInfoVersion:'3'}});
+ const el=$('#metaEmbeddedStatus');
+ metaConnectInProgress=true;
+ if(btn){btn.disabled=true;btn.textContent='Conectando...';}
+ if(el)el.textContent='Abrindo o Cadastro Incorporado da Meta...';
+ try{
+   // O callback do FB.login precisa ser uma função síncrona comum.
+   // O processamento assíncrono é iniciado separadamente para evitar conflito com FedCM/JSSDK.
+   FB.login(function(response){
+     void concluirMetaOAuth(response);
+   },{
+     config_id:cfg.whatsappEmbeddedConfigId,
+     response_type:'code',
+     override_default_response_type:true,
+     extras:{setup:{},featureType:'',sessionInfoVersion:'3'}
+   });
+ }catch(err){
+   console.error('Meta Embedded Signup:',err);
+   metaConnectInProgress=false;
+   if(btn){btn.disabled=false;btn.textContent='Conectar WhatsApp';}
+   if(el)el.textContent='Não foi possível iniciar o Cadastro Incorporado da Meta.';
+   showToast('Não foi possível iniciar a conexão com a Meta: '+(err?.message||err),'error');
+ }
 });
 setTimeout(()=>{renderMetaEmbeddedStatus();loadMetaSdk();},0);
